@@ -58,3 +58,44 @@ for (var index = 0; index < length; index++) {
   results[index] = iteratee(obj[currentKey], currentKey, obj);
 }
 ```
+
+### reduce and reduceRight
+
+**到这里先插一句话：之前看设计模式里，就会常用这种分离具体执行结果的代码和通用方法的写法，忘记这是什么模式了...需要复习一下。**
+
+单独实现每个函数其实没有什么难度，写法也和前面each,map两个函数思路基本一致。巧妙地是源码写了一个工厂函数，然后通过传入不同的参数直接造出`reduce`和`reduceRight`两个函数。
+
+下面是这个工厂函数的源码：
+
+```js
+var createReduce = function(dir) {
+  var reducer = function(obj, iteratee, memo, initial) {
+    //下面（73-81）这几行代码真是巧妙极了
+    var keys = !isArrayLike(obj) && _.keys(obj),
+        length = (keys || obj).length,
+        index = dir > 0 ? 0 : length - 1;
+    
+    if (!initial) {
+      memo = obj[keys ? keys[index] : index];
+      index += dir;
+    }
+    for (; index >= 0 && index < length; index += dir) {
+      var currentKey = keys ? keys[index] : index;
+      memo = iteratee(memo, obj[currentKey], currentKey, obj);
+    }
+    return memo;
+  };
+
+  return function(obj, iteratee, memo, context) {
+    var initial = arguments.length >= 3;
+    return reducer(obj, optimizeCb(iteratee, context, 4), memo, initial);
+  };
+};
+
+//分别创建reduce和reduceRight两个函数
+
+reduce = createReduce(1);
+reduceRight = createReduce(-1);
+```
+
+**还有另外一个问题，underscore源码中有专门的函数用来处理iteratee函数的this绑定和传参的问题，但是想了想，在功能的实现上貌似没有什么差别，暂时就先这么着吧。**
