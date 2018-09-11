@@ -99,3 +99,51 @@ reduceRight = createReduce(-1);
 ```
 
 **还有另外一个问题，underscore源码中有专门的函数用来处理iteratee函数的this绑定和传参的问题，但是想了想，在功能的实现上貌似没有什么差别，暂时就先这么着吧。**
+
+### find
+
+感觉自己的脑回路和underscore源码简直就是反着的啊...
+
+源码在find函数中用三步实现了想要的功能：
+1. 检测传入的list是普通对象还是数组，并获得相应的循环迭代函数
+2. 将list，predict，context传入上面确定的迭代函数中
+3. 判断返回值是否有效（这里对数组和对象做了统一的判断，使用的代码是：`key !== void 0 && key !== -1`），有效返回对应的值，无效不返回（不返回会默认返回undefined）
+
+而自己写的代码步骤上和源码基本一致，源码设计成这样应该是从某种设计模式的角度出发的。
+
+### filter
+
+源码借用了上面实现的`each`方法，真香！
+
+### where
+
+**源码的思路更清晰：将where函数看做是filter函数的一个特殊应用，条件是包含一组特定的键值对，因此只要向这个where函数中传入待判断的list以及条件判断的函数即可。**
+
+源码胜出！
+
+源码中，使用`_.isMatch`这个函数来判断一个对象是否包含一个键值对
+
+```js
+_.isMatch = function(object, attrs) {
+  var keys = _.keys(attrs), length = keys.length;
+  if (object == null) return !length;
+  var obj = Object(object);
+  for (var i = 0; i < length; i++) {
+    var key = keys[i];
+    if (attrs[key] !== obj[key] || !(key in obj)) return false;
+  }
+  return true;
+};
+```
+上面这个判断函数比自己写的要做了更多的判断：
+1. 如果传入的对象是个null直接返回false
+2. 如果传入的是个premitive，则先转换成一个对象
+3. 如果相同key得到的value不同，则说明属性不同，同时还判断了key是否在传入的对象中
+
+源码没有直接对`key-value`进行处理，而是进行了一个复制。
+
+### findWhere
+
+在这个函数中利用了前面写的find函数，find函数接受一个list参数和一个条件判断函数，所以findWhere函数可以看成是find函数的一个特例。借用find函数完成任务的关键是将`property`对象转换成为一个用于判断的函数，也就是自己代码里的match函数，这个函数返回真正的判断函数。越来越6了，666。
+
+源码中也是这个思路。

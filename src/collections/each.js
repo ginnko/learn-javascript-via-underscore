@@ -61,29 +61,30 @@ function each(list, func, context) {
 }
 
 // 测试
-const arr = [1, 2, 3, 4];
-const obj = {one: 'one', two: 'two', three: 'three'};
-const obj1 = {
-  four: 'four',
-  five: 'five',
-  six: 'six',
-  seven: 'seven',
-  eight: 'eight',
-  nine: 'nine',
-  ten: 'ten'
-};
-const obj_test = {
-  console: function(ele) {
-    console.log(ele);
-  }
-};
-each(arr, (ele, index, list) => {
-  console.log(ele);
-});
-each(obj, (ele, index, list) => {
-  console.log(ele);
-});
-each(obj1, function(ele, index, list) {
-  this.console(ele);
-}, obj_test);
+// const arr = [1, 2, 3, 4];
+// const obj = {one: 'one', two: 'two', three: 'three'};
+// const obj1 = {
+//   four: 'four',
+//   five: 'five',
+//   six: 'six',
+//   seven: 'seven',
+//   eight: 'eight',
+//   nine: 'nine',
+//   ten: 'ten'
+// };
+// const obj_test = {
+//   console: function(ele) {
+//     console.log(ele);
+//   }
+// };
+// each(arr, (ele, index, list) => {
+//   console.log(ele);
+// });
+// each(obj, (ele, index, list) => {
+//   console.log(ele);
+// });
+// each(obj1, function(ele, index, list) {
+//   this.console(ele);
+// }, obj_test);
 
+module.exports = each;
