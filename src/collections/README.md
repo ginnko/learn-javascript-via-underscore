@@ -147,3 +147,33 @@ _.isMatch = function(object, attrs) {
 在这个函数中利用了前面写的find函数，find函数接受一个list参数和一个条件判断函数，所以findWhere函数可以看成是find函数的一个特例。借用find函数完成任务的关键是将`property`对象转换成为一个用于判断的函数，也就是自己代码里的match函数，这个函数返回真正的判断函数。越来越6了，666。
 
 源码中也是这个思路。
+
+### reject
+
+这个函数实质是`filter`函数的差集，源码利用了filter函数，对传入的`predicate`参数进行了取反的操作。
+
+~~但是感觉自己写的filter函数无法实现这种简便的写法，原因就在于函数内部`this`的指向问题上。~~
+
+想错了，依然可以实现，nice！
+
+下面说一下这个源码中有使用到一个叫做`_.nenate`的取反函数，这个函数的用途就是对`predicate`函数的判断取反。
+
+```js
+_.negate = function(predicate) {
+  return function() {
+    return !predicate.apply(this, arguments);
+  };
+};
+```
+
+说一下为何上面的函数要绑定`this`。首先，这个`this`是`_.negate`函数中那个匿名函数的，在调用完`_.negate`函数之后，这个匿名函数就成为了新的`predicate`函数，可以将这个匿名函数看做一个代理函数。filter函数中有一行代码是用来处理`predicate`函数内部的`this`和`context`的绑定的。上面之所以在此处绑定`this`，就是为了让实际的`predicate`函数的内部`this`和代理函数的`this`保持一致，在为代理函数绑定`context`的时候，同时实际的`predicate`函数的内部`this`也正确的绑定了`context`。
+
+### every & some
+
+这两个函数和源码写的几乎一样
+
+### contains
+
+自己写的contains和源码中的contains的实现思路基本一致，如果传入的是对象，则将对象中的值专程一个数组，如果传入的是数组，则直接调用`indexOf`方法进行搜索。
+
+但源码中`indexOf`方法使用的是重写的扩展方法，这个扩展的`indexOf`好复杂啊...这个到后面在细看。

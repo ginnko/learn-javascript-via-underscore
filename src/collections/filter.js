@@ -56,6 +56,8 @@ function filter(list, predict, context) {
   return result;
 }
 
+module.exports = filter;
+
 const arr = [1, 2, 3, 4, 5, 6];
 const obj = {
   one: 1,
@@ -74,8 +76,8 @@ const predict = (ele) => {
   return ele % 2 === 0;
 };
 
-console.log(filter(arr, predict));
-console.log(filter(obj, predict));
+// console.log(filter(arr, predict));
+// console.log(filter(obj, predict));
 
 //借用each函数实现filter函数
 
@@ -92,5 +94,6 @@ function filterViaEach(list, predict, context) {
   return result;
 }
 
-console.log(filterViaEach(arr, predict));
-console.log(filterViaEach(obj, predict));
+// console.log(filterViaEach(arr, predict));
+// console.log(filterViaEach(obj, predict));
+
