@@ -65,5 +65,7 @@ func2 = function(num, key) {
   return num * 3;
 };
 
-console.log(map(arr1, func1));
-console.log(map(obj2, func2));
+// console.log(map(arr1, func1));
+// console.log(map(obj2, func2));
+
+module.exports = map;
