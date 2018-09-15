@@ -244,3 +244,12 @@ _.negate = function(predicate) {
 ### groupBy & indexBy & countBy
 
 这三个函数可以使用一个工厂函数实现，自己是分开实现的，`groupBy`和`indexBy`代码大部分重复，`countBy`函数借用了`groupBy`,但为了计算数量又进行了一步操作，分开实现就会多此一举，所以无论怎么看都是通过一个通用函数创建的效率高。
+
+### shuffle
+
+生成一个数组的copy的简便方法： `array.concat()`，喵喵喵！
+
+数组乱序的正确算法：`Fisher-yates shuffle`。这个算法有两种实现方式，从前向后遍历和从后向前遍历。以从前向后遍历为例说明，这个算法的核心思想是交换当前元素和它后面任意元素的位置。
+
+函数中用了`Math.random()`，为了保证是当前元素后面的元素要使用这样的代码：`let newIndex = Math.floor(Math.random * length) + i`，但是这样写会有问题，求得值会超过length，所以后面再加一条判断：`if (newIndex >= length) newIndex = length - 1;`。
+
