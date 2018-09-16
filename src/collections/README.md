@@ -247,11 +247,26 @@ _.negate = function(predicate) {
 
 ### shuffle
 
+关于`Fisher-yates shuffle`算法的[讲解](https://github.com/hanzichi/underscore-analysis/issues/15)。
+
 生成一个数组的copy的简便方法： `array.concat()`，喵喵喵！
 
 数组乱序的正确算法：`Fisher-yates shuffle`。这个算法有两种实现方式，从前向后遍历和从后向前遍历。以从前向后遍历为例说明，这个算法的核心思想是交换当前元素和它后面任意元素的位置。
 
 函数中用了`Math.random()`，为了保证是当前元素后面的元素要使用这样的代码：`let newIndex = Math.floor(Math.random * length) + i`，但是这样写会有问题，求得值会超过length，所以后面再加一条判断：`if (newIndex >= length) newIndex = length - 1;`。
+
+源码中为了解决这个问题使用的办法：
+
+```js
+_.random = function(min, max) {
+    if (max == null) {
+      max = min;
+      min = 0;
+    }
+    return min + Math.floor(Math.random() * (max - min + 1));
+  };
+```
+我简直就是脑残啊，这么通用的写法也忘记了...
 
 ### sample
 
@@ -260,6 +275,8 @@ _.negate = function(predicate) {
 ### toArray
 
 这个函数很好实现。
+
+这个函数对字符串也是有效的，因为字符串也是可迭代的。在自定义toArray函数中，走的应该是对象操作的那条路。
 
 在检查这个函数的使用方式时，如果以箭头函数的形式写下下面的代码：
 
@@ -278,3 +295,7 @@ transformFromArray(1, 2, 3, 4, 5, 6);
 ### size
 
 很好实现
+
+### partition
+
+源码使用了`group`，印象中这已经是这个函数第四次构造新用途的函数了，写完之后要看下大神对这个函数的分析。

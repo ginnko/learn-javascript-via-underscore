@@ -6,3 +6,10 @@
 - 位置：`/src/collections/`
 
 - 笔记：详见[此处](./src/collections/README.md)。
+
+
+## Arrays系列的工具函数
+
+- 位置：`/src/arrays/`
+
+- 笔记：详见[此处](./src/arrays/README.md)。
