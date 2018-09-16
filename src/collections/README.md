@@ -253,3 +253,28 @@ _.negate = function(predicate) {
 
 函数中用了`Math.random()`，为了保证是当前元素后面的元素要使用这样的代码：`let newIndex = Math.floor(Math.random * length) + i`，但是这样写会有问题，求得值会超过length，所以后面再加一条判断：`if (newIndex >= length) newIndex = length - 1;`。
 
+### sample
+
+很好实现
+
+### toArray
+
+这个函数很好实现。
+
+在检查这个函数的使用方式时，如果以箭头函数的形式写下下面的代码：
+
+```js
+const _ = require('underscore');
+
+const transformFromArray = () => {
+  console.log('arguments:', arguments);
+};
+
+transformFromArray(1, 2, 3, 4, 5, 6);
+```
+
+会得到奇怪的结果。原因就是箭头函数不会绑定`Arguments`对象。所以要正常使用`arguments`还是要以普通函数的形式。
+
+### size
+
+很好实现
