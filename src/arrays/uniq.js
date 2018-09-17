@@ -64,12 +64,29 @@ function uniq(array, isSort, iteratee) {
       }
     }
     return result;
+  } else if (isSort) {
+    let last = array[0];
+    const length = array.length,
+          result = [last];
+    for (let i = 1; i < length; i++) {
+      const current = array[i];
+      if (last !== current) {
+        result.push(current);
+      }
+      last = current;
+    }
+
+    return result;
   } else {
     return union(array);
   }
 
 }
 
-console.log(uniq([1, 2, 1, 4, 1, 3], false, function(value){
-  return value * 2;
-}));
+// console.log(uniq([1, 2, 1, 4, 1, 3], false, function(value){
+//   return value * 2;
+// }));
+
+// console.log(uniq([1, 1, 1, 2, 3, 4], true));
+
+console.log(uniq([1, 1, 3, 2, '4', 1, 2, 4, '1']));

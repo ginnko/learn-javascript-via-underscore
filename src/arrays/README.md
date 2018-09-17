@@ -44,6 +44,39 @@
 
 自定义实现用的非常笨的方法，且没有解决第二个传入isSort参数时的情况。
 
-待看源码。
+看了下[这个大神](https://github.com/hanzichi/underscore-analysis/issues/9)的解释,关于`isSort`参数的使用：
 
+>如果是有序元素，当前元素只需要和上一个上一个元素比较即可！！！
 
+看了下[大神](https://github.com/hanzichi/underscore-analysis/issues/9)关于 **数组去重**的解法说明
+
+- 自己使用的是O(n^2) 复杂度的解法，使用`indexOf`可以简化二重循环中的内部循环（感觉本质没有变，indexOf内部依然使用了迭代，O(n^2)）：
+
+  ```js
+  function unique(a) {
+    var res = [];
+
+    for (var i = 0, len = a.length; i < len; i++) {
+      var item = a[i];
+
+      (res.indexOf(item) === -1) && res.push(item);
+    }
+
+    return res;
+  }
+  ```
+
+- 再添加`filter`函数做进一步简化（感觉本质依然没有改变，只是把迭代的过程转移到了filter函数的内部，O(n^2)）：
+
+  ```js
+  function unique(a) {
+    const res = a.filter(function(item, index, array) {
+      return array.indexOf(item) === index; //---[1]
+    });
+    return res;
+  }
+  ```
+
+上面标有 **`[1]`** 的那行代码真是喵！喵！喵！filter的iteratee函数可以接受三个参数：`当前元素`，`当前元素所在位置`以及`整个集合`，利用`indexOf`函数判断`当前元素`在`整个集合`中的位置是否是`参数中对应的位置`来判断是否有重复元素。
+
+**另一个重要的问题是自定义代码的写法是假设传入的数组的元素全部为数字，但实际可以是任意元素，这就是个大问题了，尴尬...**

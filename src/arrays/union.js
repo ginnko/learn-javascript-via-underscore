@@ -15,7 +15,7 @@
 
 function union() {
   const getArray = function(value) {
-    return Array.prototype.slice.call(value, 0);
+    return Array.prototype.slice.call(value);
   }
   const array = getArray(arguments);
 
