@@ -123,3 +123,87 @@ for (; index < length; index++) {
 
 自己写的代码是一个一个复制元素进行分组的，源码使用`slice`函数，感觉要快的多，而且`slice`函数本身就能处理 *index>lenghth* 的情况，喵！喵!喵!
 
+### indexOf
+
+这里的快速搜索算法用的二分法？是的，用的二分查找。
+
+自定义的二分法查找算法目前没有想到返回值该如何处理...于是在这个函数外层定义了一个变量，用于保存最后的结果。
+
+源码实现二分法查找的代码如下：
+
+```js
+var low = 0, high = getLength(array);
+while (low < high) {
+  var mid = Math.floor((low + high) / 2);
+  if (iteratee(array[mid]) < value) low = mid + 1; else high = mid;
+}
+return low;
+```
+
+通过循环实现的，没有用到递归。这个明显更简单。
+
+自定义函数和源码思路基本一直，只不过源码创建了一个创建indexOf和lastIndexOf这两个函数的工厂函数，通过传入不同的参数，构造这两个函数。
+
+### lastIndexOf
+
+这个函数和indexOf函数还是有区别的，这个函数不能使用二分查找。
+
+### sortedIndex
+
+这个函数的关键在于二分法算法函数的实现。感觉比较大小和单纯的查找值有细微的差别...第一版自己的代码无法正确比较只有两个元素，插入元素大小介于这二者之间的情况。
+
+```js
+//第一版二分法算法实现
+
+const sortViaBinary = (array, value) => {
+  const length = array.length;
+  let low = 0,
+      high = length - 1;
+  while(low < high) {
+    let mid = Math.round((low + high) / 2);
+    if (array[mid] < value) {
+      low = mid + 1;
+    } else if (array[mid] > value) {
+      high = mid - 1;
+    } else {
+      return mid;
+    }
+  }
+  return low;
+};
+```
+原因肯定是上面的算法有问题，改造一下变成下面的这样了：
+
+```js
+//第二版二分法算法实现
+const sortViaBinary = (array, value) => {
+  const length = array.length;
+  let low = 0,
+      high = length;
+  while(low <= high) {
+    let mid = Math.floor((low + high) / 2);
+    if (array[mid] < value) {
+      low = mid + 1;
+    } else if (array[mid] > value) {
+      high = mid - 1;
+    } else {
+      return mid;
+    }
+  }
+  return low;
+};
+```
+
+源码的二分法实现见上，其余思路相同。
+
+### findIndex && findLastIndex
+
+非常好实现
+
+考虑少了，predictate可以是函数也可以是对象，感觉字符串也是可以的，关键就是源码中的那个`cb`函数。
+
+目前自定义的这两个函数中就分上面三种情况实现的代码。
+
+### range
+
+实现完毕，因为第一个参数可以省略，所以不能直接在形参里进行操作。解决办法是在函数内部使用`arguments`进行赋值。
