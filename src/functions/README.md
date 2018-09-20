@@ -49,3 +49,15 @@ const fibonacci = memoize(function(n) {
 ```
 
 在`fibonacci`中调用`fibonacci`效果真的很惊人...
+
+### delay
+
+很好实现
+
+### defer
+
+这个函数是在调用栈空的时候立即执行经过其包装的函数，设置`setTimeout`中的时间为0。
+
+但是源码怎么看怎么觉得是设置为了1，这是为何？
+
+查到的说法是跟执行环境有关，在`node`和`chrome`中，0和1被认为是相同的，`firefox`中，认为0先于1,这个是新的规范？好像是诶，没有那个4毫秒了？详见[stackoverflow](https://stackoverflow.com/questions/8341803/difference-between-settimeoutfn-0-and-settimeoutfn-1)以及[MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/EventLoop#Adding_messages#Zero_delays)。
