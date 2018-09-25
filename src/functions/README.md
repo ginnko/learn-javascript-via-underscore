@@ -99,15 +99,36 @@ const fibonacci = memoize(function(n) {
 
   - 版本4思路：
 
-    1. 添加`{trailing: false}`参数，感觉传入这个参数是挂起最后一次的执行。下次再次触发事件会立即执行之前挂起的程序。增加了下面这行代码的判断：
+    1. 添加`{trailing: false}`参数，感觉传入这个参数是挂起最后一次的执行。下次再次触发事件会立即执行之前挂起的程序。加了下面几行代码：
 
-      ```js
-      if (option && option.trailing === false) {
-        if (timer !== null) {
-          throttledVersion.cancel();
-          isFirstCall = true;
-        } else {
-          return;
-        }
+    ```js
+    timer = setTimeout(function() {
+      if(option && option.trailing === false) {
+        clearTimeout(timer);
+        timer = null;
+        isFirstCall = true;
+        return;
       }
-      ```
+      func.call(null, arguments);
+      clearTimeout(timer);
+      timer = null;
+    }, wait);
+    ```
+
+    按照上面这个写法，增加了功能4,测试结果ojbk,但感觉是比实际的wait时间要长一点。
+
+对比源码，整体思路是一样的。区别在于，源码是综合使用 **定时器** 和 **时间戳**，而自己定义的节流函数只使用了 **定时器**，个人感觉在功能上没有差别。
+
+### debounce
+
+  - 版本1思路:
+
+    实现相当简单,只要进入`debounced`函数就`清除timer`,并`赋值null`
+
+    测试也ojbk。
+
+  - 版本2思路：
+  
+    如果第三个参数传入了`true`，如果此时`immediateCall`参数为真，则立即执行`func`，执行后，给`immediateCall`赋假值，然后设定一个wait的定时器，时间到了给`immediateCall`赋真值。
+
+    测试也ojbk。

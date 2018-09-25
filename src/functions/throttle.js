@@ -101,34 +101,32 @@ function throttle(func, wait, option) {
 function throttle(func, wait, option) {
   let isFirstCall = true,
       timer = null;
-  return function throttledVersion() {
+  function throttledVersion() {
     if (option && option.leading === false) {
       isFirstCall = false;
-    }
-    if (option && option.trailing === false) {
-      if (timer !== null) {
-        throttledVersion.cancel();
-        isFirstCall = true;
-      } else {
-        return;
-      }
     }
     if (isFirstCall === true) {
       func.call(null, arguments);
       isFirstCall = false;
-    } else {
-      if (timer !== null) {
-        return;
-      }
-      timer = setTimeout(function() {
-        func.call(null, arguments);
+    }
+    if (timer !== null) {
+      return;
+    }
+    timer = setTimeout(function() {
+      if(option && option.trailing === false) {
         clearTimeout(timer);
         timer = null;
-      }, wait);
-    }
+        isFirstCall = true;
+        return;
+      }
+      func.call(null, arguments);
+      clearTimeout(timer);
+      timer = null;
+    }, wait);
   };
   throttledVersion.cancel = function() {
     clearTimeout(timer);
     timer = null;
   }
+  return throttledVersion;
 }

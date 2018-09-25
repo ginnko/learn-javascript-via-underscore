@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Debounce Example</title>
+</head>
+<body>
+  <script src="../../node_modules/underscore/underscore.js"></script>
+  <script>
+    function debounce(func, wait, immediate) {
+      let timer = null,
+          immediateCall = true;
+    
+      return function() {
+        clearTimeout(timer);
+        timer = null;
+        if (immediate) {
+          if (immediateCall) {
+            func.apply(null, arguments);
+            immediateCall = false;
+          } else {
+            timer = setTimeout(function() {
+              immediateCall = true;
+            }, wait);
+          }
+        } else {
+          timer = setTimeout(function() {
+            func.apply(null, arguments);
+          }, wait);
+        }
+      };
+    }
+    let counter = 0;
+    const consoleMessage = () => {console.log('This is counter: ', counter++)};
+    const debouncedConsoleMessage = debounce(consoleMessage, 3000, true);
+    window.addEventListener('mousemove',  debouncedConsoleMessage);
+  </script>
+</body>
+</html>
