@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Throttle Example</title>
+</head>
+<body>
+  <script src="../../node_modules/underscore/underscore.js"></script>
+  <script>
+
+    function throttle(func, wait, option) {
+      let isFirstCall = true,
+          timer = null;
+      return function throttledVersion() {
+        if (option && option.leading === false) {
+          isFirstCall = false;
+        }
+        if (option && option.trailing === false) {
+          if (timer !== null) {
+            throttledVersion.cancel();
+            isFirstCall = true;
+          } else {
+            return;
+          }
+        }
+        if (isFirstCall === true) {
+          func.call(null, arguments);
+          isFirstCall = false;
+        } else {
+          if (timer !== null) {
+            return;
+          }
+          timer = setTimeout(function() {
+            func.call(null, arguments);
+            clearTimeout(timer);
+            timer = null;
+          }, wait);
+        }
+      };
+      throttledVersion.cancel = function() {
+        clearTimeout(timer);
+        timer = null;
+      }
+    }
+
+    let counter = 0;
+    const consoleMessage = () => {console.log('This is counter: ', counter++)};
+    const throttledConsoleMessage = _.throttle(consoleMessage, 3000, {trailing: false});
+    window.addEventListener('mousemove',  throttledConsoleMessage);
+  </script>
+</body>
+</html>

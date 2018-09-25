@@ -61,3 +61,53 @@ const fibonacci = memoize(function(n) {
 但是源码怎么看怎么觉得是设置为了1，这是为何？
 
 查到的说法是跟执行环境有关，在`node`和`chrome`中，0和1被认为是相同的，`firefox`中，认为0先于1,这个是新的规范？好像是诶，没有那个4毫秒了？详见[stackoverflow](https://stackoverflow.com/questions/8341803/difference-between-settimeoutfn-0-and-settimeoutfn-1)以及[MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/EventLoop#Adding_messages#Zero_delays)。
+
+
+### throttle
+
+  - 版本1思路：
+
+      1. 首先是`isFirstCall`，这参数定义为一个闭包，在第一次调用之后值改为`false`。
+      2. `timer`也设定为一个比包，用来记录和判断setTimeout的情况。
+      3. 现在的疑惑是应该在什么地方进行clearTimeout的操作，给timer重新赋值？想到的是在setTimeout的回调函数中。
+    
+    照上面这个写法，感觉能实现原代码中的功能1和2。测试结果ojbk。
+
+  - 版本2思路：
+
+      1. 给返回的函数`throttledVersion`添加一个`cancel`属性，这个属性值是一个函数，执行的操作是：
+
+          ```js
+          throttledVersion.cancel = function() {
+            clearTimeout(timer);
+            timer = null;
+          }
+          ```
+    照上面这个写法，增加了功能5,测试结果ojbk。
+
+  - 版本3思路：
+
+      1. 添加`{leading: false}`参数，测试了下，感觉传入这个参数是禁止第一次的立即执行。这个版本中增加了下面这行判断：
+
+        ```js
+        if (option && option.leading === false) {
+          isFirstCall = false;
+        }
+        ```
+
+      按照上面这个写法，增加了功能3,测试结果ojbk。
+
+  - 版本4思路：
+
+    1. 添加`{trailing: false}`参数，感觉传入这个参数是挂起最后一次的执行。下次再次触发事件会立即执行之前挂起的程序。增加了下面这行代码的判断：
+
+      ```js
+      if (option && option.trailing === false) {
+        if (timer !== null) {
+          throttledVersion.cancel();
+          isFirstCall = true;
+        } else {
+          return;
+        }
+      }
+      ```
