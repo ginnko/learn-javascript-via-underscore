@@ -27,3 +27,10 @@
 
 - 笔记：详见[此处](./src/functions/README.md)。
 
+## Objects系列的工具函数
+
+- 数量： 43
+
+## Utilities系列的工具函数
+
+- 数量： 14

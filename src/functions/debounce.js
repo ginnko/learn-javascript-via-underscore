@@ -26,14 +26,15 @@ function debounce(func, wait) {
 
 function debounce(func, wait, immediate) {
   let timer = null,
-      immediateCall = true;
+      immediateCall = true,
+      result = null;
 
   return function() {
     clearTimeout(timer);
     timer = null;
     if (immediate) {
       if (immediateCall) {
-        func.apply(null, arguments);
+        result = func.apply(null, arguments);
         immediateCall = false;
       } else {
         timer = setTimeout(function() {
@@ -42,8 +43,9 @@ function debounce(func, wait, immediate) {
       }
     } else {
       timer = setTimeout(function() {
-        func.apply(null, arguments);
+        result = func.apply(null, arguments);
       }, wait);
     }
+    return result;
   };
 }

@@ -100,13 +100,14 @@ function throttle(func, wait, option) {
 
 function throttle(func, wait, option) {
   let isFirstCall = true,
-      timer = null;
+      timer = null,
+      result = null;
   function throttledVersion() {
     if (option && option.leading === false) {
       isFirstCall = false;
     }
     if (isFirstCall === true) {
-      func.call(null, arguments);
+      result = func.call(null, arguments);
       isFirstCall = false;
     }
     if (timer !== null) {
@@ -119,10 +120,11 @@ function throttle(func, wait, option) {
         isFirstCall = true;
         return;
       }
-      func.call(null, arguments);
+      result = func.call(null, arguments);
       clearTimeout(timer);
       timer = null;
     }, wait);
+    return result;
   };
   throttledVersion.cancel = function() {
     clearTimeout(timer);
