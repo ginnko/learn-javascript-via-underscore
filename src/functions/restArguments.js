@@ -13,21 +13,61 @@
 
 // underscore中这个函数的使用
 
-const _ = require('underscore');
+// const _ = require('underscore');
 
-const raceResults = _.restArguments(function(gold, silver, bronze, everyoneElse) {
-  console.log(everyoneElse);
-});
+// const raceResults = _.restArguments(function(a, b, c, d) {
+//   console.log(a, b, c, d);
+// }, 2);
 
-raceResults("Dopey", "Grumpy", "Happy", "Sneezy", "Bashful", "Sleepy", "Doc");
+// raceResults("Dopey", "Grumpy", "Happy", "Sneezy", "Bashful", "Sleepy", "Doc");
 
 // 上面函数的运行结果是[ 'Sneezy', 'Bashful', 'Sleepy', 'Doc' ]，大概知道是怎么回事了
 
 // 第一版 无startIndex
 
 function restArguments(func) {
-  const funcLen = func.length;
   return function() {
-
+    const funcLen = func.length,
+          args = Array(funcLen);
+    for (let i = 0; i < funcLen - 1; i++) {
+      args[i] = Array.prototype.splice.call(arguments, 0, 1);
+    }
+    args[funcLen - 1] = Array.prototype.slice.call(arguments);
+    return func.apply(this, args);
   }
 }
+
+// const raceResults = restArguments(function(gold, silver, bronze, everyoneElse) {
+//   console.log(everyoneElse);
+// });
+
+// raceResults("Dopey", "Grumpy", "Happy", "Sneezy", "Bashful", "Sleepy", "Doc");
+
+// 第2版 有startIndex
+
+function restArguments(func, startIndex) {
+  return function() {
+    let args;
+    if (startIndex === undefined) {
+      const funcLen = func.length;
+      args = Array(funcLen);
+      for (let i = 0; i < funcLen - 1; i++) {
+        args[i] = Array.prototype.splice.call(arguments, 0, 1)[0];
+      }
+      args[funcLen - 1] = Array.prototype.slice.call(arguments);
+    } else {
+      args = Array(startIndex + 1);
+      for (let i = 0; i < startIndex; i++) {
+        args[i] = Array.prototype.splice.call(arguments, 0, 1)[0];
+      }
+      args[startIndex] = Array.prototype.slice.call(arguments);
+    }
+    return func.apply(this, args);
+  }
+}
+
+const raceResults = restArguments(function(gold, silver, bronze, everyoneElse) {
+  console.log(gold, silver, bronze, everyoneElse);
+});
+
+raceResults("Dopey", "Grumpy", "Happy", "Sneezy", "Bashful", "Sleepy", "Doc");

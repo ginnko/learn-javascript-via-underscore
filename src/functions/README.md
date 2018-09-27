@@ -204,3 +204,9 @@ const args = Array.prototype.splice.call(arguments, 0, 0, func);
 没有第二个startIndex参数
 
 利用函数的`length`，这个属性表示形参的数量。
+
+- 第二版
+
+`startIndex`存在就完全按照这个值来划分，之前面的给每个参数单独赋值，值及值后面的作为一个数组；如果没有传入`startIndex`就按传入的函数的参数数量来划分。
+
+以上测试完全ojbk，明天看源码。
