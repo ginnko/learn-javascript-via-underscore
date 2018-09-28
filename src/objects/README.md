@@ -42,3 +42,19 @@
 ### mapObject && pairs && invert
 
 很好实现
+
+### create
+
+和源码的设计基本一样。
+
+### functions
+
+源码处理的函数属性还包括原型链上的函数。
+
+### findKey
+
+很好实现。
+
+### extend && extendOwn
+
+很好实现。
