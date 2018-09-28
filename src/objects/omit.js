@@ -1,14 +1,9 @@
 // underscore中关于这个函数的说明
-// 详见此处： https://underscorejs.org/#pick
+// 详见此处： https://underscorejs.org/#omit
 
-// 这个函数第一个参数是一个对象
-// 第二个参数是一个predicate函数
-// 或是一个键的白名单数组
-// 或是一系列键名
+// 类似于pick，反向返回
 
-// 自定义pick函数
-
-function pick() {
+function omit() {
   const obj = Array.prototype.splice.call(arguments, 0, 1)[0],
         length = arguments.length;
   const isFunction = (func) => {
@@ -29,7 +24,7 @@ function pick() {
     if (isFunction(arguments[0])) {
       predicate = arguments[0];
       for (let i = 0, key; key = keys[i]; i++) {
-        if (predicate.call(null, obj[key], key, key)) {
+        if (!predicate.call(null, obj[key], key, key)) {
           result[key] = obj[key];
         }
       }
@@ -37,22 +32,20 @@ function pick() {
     } else if (isArray(arguments[0])) {
       predicate = arguments[0];
     } else if (isString(arguments[0])) {
-      predicate = arguments[0];
-      result[predicate] = obj[predicate];
-      return result;
+      predicate = [arguments[0]];
     }
   } else if (length > 1) {
     predicate = Array.prototype.slice.call(arguments);
   }
   for (let i = 0, key; key = keys[i]; i++) {
-    if (predicate.indexOf(key) !== -1) {
+    if (predicate.indexOf(key) === -1) {
       result[key] = obj[key];
     }
   }
   return result;
 }
 
-console.log(pick({name: 'moe', age: 50, userid: 'moe1'}, 'name', 'age'));
-console.log(pick({name: 'moe', age: 50, userid: 'moe1'}, function(value, key, object) {
+console.log(omit({name: 'moe', age: 50, userid: 'moe1'}, 'userid'));
+console.log(omit({name: 'moe', age: 50, userid: 'moe1'}, function(value, key, object) {
   return typeof value === 'number';
 }));
