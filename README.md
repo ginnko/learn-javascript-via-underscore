@@ -5,7 +5,7 @@
 
 - 数量：25
 
-- 位置：`/src/collections/`
+- 位置：[/src/collections/](./src/collections/)
 
 - 笔记：详见[此处](./src/collections/README.md)。
 
@@ -14,7 +14,7 @@
 
 - 数量：21
 
-- 位置：`/src/arrays/`
+- 位置：[/src/arrays/](./src/arrays/)
 
 - 笔记：详见[此处](./src/arrays/README.md)。
 
@@ -23,13 +23,17 @@
 
 - 数量：15
 
-- 位置：`/src/functions/`
+- 位置：[/src/functions/](./src/functions/)
 
 - 笔记：详见[此处](./src/functions/README.md)。
 
 ## Objects系列的工具函数
 
 - 数量： 43
+
+- 位置： [/src/objects/](./src/objects/)
+
+- 笔记： 详见[此处](./src/objects/README.md)
 
 ## Utilities系列的工具函数
 
