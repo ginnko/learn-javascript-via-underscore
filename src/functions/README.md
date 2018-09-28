@@ -210,3 +210,5 @@ const args = Array.prototype.splice.call(arguments, 0, 0, func);
 `startIndex`存在就完全按照这个值来划分，之前面的给每个参数单独赋值，值及值后面的作为一个数组；如果没有传入`startIndex`就按传入的函数的参数数量来划分。
 
 以上测试完全ojbk，明天看源码。
+
+和源码实现思路一样，源码中将`startIndex = 0, 1, 2`三种情况单独拿出来使用`call()`函数进行原函数调用处理，印象中好像`call`的效率要比`apply`高点。
