@@ -127,6 +127,34 @@ omit和pick是反向选取。
 3. 源码认为两个NaN相等
 4. 源码认为undefined和null互不相等
 
-### isMatch
+### isMatch && isEmpty
 
 很好实现
+
+### isElement
+
+- DOM element有神马特点？
+
+[stackoverflow](https://stackoverflow.com/questions/384286/javascript-isdom-how-do-you-check-if-a-javascript-object-is-a-dom-object)给出了一个解决办法。
+
+使用这行代码：`obj instancef HTMLElement`
+
+- 源码给出的解决办法
+
+```js
+  _.isElement = function(obj) {
+    return !!(obj && obj.nodeType === 1);
+  };
+```
+
+关于[nodeType](https://developer.mozilla.org/en-US/docs/Web/API/Node/nodeType)，**1**表示 **Element** 。
+
+### isArray
+
+使用`Object.prototype.toString.call(obj)`或者`obj instanceof Array`皆可。
+
+源码封装了`Array.isArray`和上面第一种方法。
+
+### isObject
+
+这个自己想错了，不能使用`Object.prototype.toString.call(obj)`，这样就太狭隘了，只能判断普通对象了。要用 **typeof**，同事要警惕`null`。
