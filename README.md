@@ -3,7 +3,7 @@
 
 ## Collections系列的工具函数
 
-- 数量：25
+- 数量：25/25
 
 - 位置：[/src/collections/](./src/collections/)
 
@@ -12,7 +12,7 @@
 
 ## Arrays系列的工具函数
 
-- 数量：21
+- 数量：21/21
 
 - 位置：[/src/arrays/](./src/arrays/)
 
@@ -21,7 +21,7 @@
 
 ## Functions系列的工具函数
 
-- 数量：15
+- 数量：15/15
 
 - 位置：[/src/functions/](./src/functions/)
 
@@ -29,7 +29,7 @@
 
 ## Objects系列的工具函数
 
-- 数量： 43
+- 数量： 15/43
 
 - 位置： [/src/objects/](./src/objects/)
 
