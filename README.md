@@ -29,7 +29,7 @@
 
 ## Objects系列的工具函数
 
-- 数量： 15/43
+- 数量： 26/43
 
 - 位置： [/src/objects/](./src/objects/)
 
