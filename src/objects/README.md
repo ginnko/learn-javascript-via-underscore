@@ -158,3 +158,32 @@ omit和pick是反向选取。
 ### isObject
 
 这个自己想错了，不能使用`Object.prototype.toString.call(obj)`，这样就太狭隘了，只能判断普通对象了。要用 **typeof**，同事要警惕`null`。
+
+### isArguments && isFunction && isString && isNumber && isBoolean
+
+决定分开写，熟悉一下到底有多少种类型。
+
+都使用`Object.prototype.toString.call()`进行判断。
+
+
+- 这个有点惊了
+
+把`NaN`传入`Object.prototype.toString.call()`中竟然也能得到`'[object Number]'`。首先，`NaN`是一个`number`，也就是一个`primitive`，详见[stackoverflow](https://stackoverflow.com/questions/2801601/why-does-typeof-nan-return-number)。`typeof NaN`返回`'number'`，`NaN instanceof Number`返回`false`。
+
+继续这个话题，对于`number`和`string`类型的`primitive`，使用`Object.prototype.toString()`都能得到`'[object Number]'`和`'[object String]'`，详见这个[gist](https://gist.github.com/pbakondy/f442e91995e9d206c056)。这样的话，用这种方法来严格判断`数字对象`和`字符串对象`是分辨不出来的啊。
+
+但源码确实使用的是这种方式。
+
+- 布尔值判断
+
+`Object.prototype.toString.call(true)`返回`'[object Boolean]'`
+
+`true instanceof Boolean`返回`false`
+
+`typeof true`返回`'boolean'`
+
+### isFinite
+
+惊了！！！
+
+首先js是有原生函数来判断`Infinity/-Infinity`，这个函数就是 **全局函数**`isFinite()`。但是源码做了更多的事情诶，除了使用`isFinite`，源码还同时判断参数不是symbol类型，也不是NaN，这个有些不明白诶。
