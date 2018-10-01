@@ -159,7 +159,7 @@ omit和pick是反向选取。
 
 这个自己想错了，不能使用`Object.prototype.toString.call(obj)`，这样就太狭隘了，只能判断普通对象了。要用 **typeof**，同事要警惕`null`。
 
-### isArguments && isFunction && isString && isNumber && isBoolean
+### isArguments && isFunction && isString && isNumber && isBoolean && isDate && isRegExp && isError && isSymbol && isMap && isWeakMap
 
 决定分开写，熟悉一下到底有多少种类型。
 
@@ -187,3 +187,36 @@ omit和pick是反向选取。
 惊了！！！
 
 首先js是有原生函数来判断`Infinity/-Infinity`，这个函数就是 **全局函数**`isFinite()`。但是源码做了更多的事情诶，除了使用`isFinite`，源码还同时判断参数不是symbol类型，也不是NaN，这个有些不明白诶。
+
+### isNaN
+
+`Number.isNaN`是一个可靠的判断方法。MDN上给出的一个pollifill使用的是`n !== n`，自定义方法使用的是这两个方法的结合。
+
+源码使用的方法：
+
+```js
+  _.isNaN = function(obj) {
+    return _.isNumber(obj) && isNaN(obj);
+  };
+```
+
+### isNull
+
+使用这种方法：
+
+```js
+function isNull(n) {
+  return n === null;
+}
+```
+### isUndefined
+
+使用这种方法：
+
+```js
+function isUndefined(un) {
+  return un === undefined;
+}
+```
+
+`isNull`以及`isUndefined`使用`Object.prototype.toString.call`可以得到`['object Null']`以及`[object Undefined]`，感觉使用这个方法也可以。
