@@ -37,7 +37,7 @@
 
 ## Utility系列的工具函数
 
-- 数量： 6/14
+- 数量： 12/14
 
 - 位置： [/src/objects/](./src/utility/)
 

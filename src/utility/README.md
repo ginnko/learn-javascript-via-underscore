@@ -35,3 +35,47 @@
 ### times && random
 
 实现很简单
+
+### mixin
+
+`chainResult`这部分有些看不懂，待看完`chain()`再返回头看这个。
+
+### iteratee
+
+很好实现
+
+### uniqueId
+
+没有说要随机，源码给出的是连续的整数，自己想复杂了。
+
+```js
+  var idCounter = 0;
+  _.uniqueId = function(prefix) {
+    var id = ++idCounter + '';
+    return prefix ? prefix + id : id;
+  };
+```
+
+### escape && unescape
+
+源码使用`非捕获匹配`：`?:`。解释详见[这里](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp)
+
+使用`RegExp()`函数创建正则对象的时候，加不加`new`关键字都是可以的。
+
+### now
+
+`Date.now()`这个函数是从ES5开始有的，兼容版如下：
+
+```js
+function now() {
+  if(Date.now) {
+    return Date.now;
+  }
+  return new Date().getTime();
+}
+```
+
+### result
+
+不难实现
+

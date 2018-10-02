@@ -2,10 +2,6 @@
   "name": "learn-javascript-via-underscore",
   "version": "1.0.0",
   "description": "learn javascript via underscore",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ginnko/learn-javascript-via-underscore.git"
