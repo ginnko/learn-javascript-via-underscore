@@ -35,9 +35,13 @@
 
 - 笔记： 详见[此处](./src/objects/README.md)
 
-## Utilities系列的工具函数
+## Utility系列的工具函数
 
 - 数量： 14
+
+- 位置： [/src/objects/](./src/utility/)
+
+- 笔记： 详见[此处](./src/utility/README.md)
 
 ## Chaining系列的工具函数
 

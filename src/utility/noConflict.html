@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>noConflict</title>
+</head>
+<body>
+  
+</body>
+<script>
+var _ = '123';
+</script>
+<script src='../../node_modules/underscore/underscore.js'></script>
+<script>
+  console.log(_());
+  const underScore = _.noConflict();
+  console.log(_);
+  console.log(underScore);
+</script>
+</html>
