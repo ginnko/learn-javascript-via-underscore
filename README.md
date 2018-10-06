@@ -45,4 +45,8 @@
 
 ## Chaining系列的工具函数
 
-- 数量： 2
+- 数量： 2/2
+
+- 位置： [/src/chaining/](./src/chaining/)
+
+- 笔记： 详见[此处](./src/chaining/README.md)
