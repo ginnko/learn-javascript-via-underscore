@@ -54,3 +54,9 @@
 ## Object-Oriented Style
 
 - 笔记： 详见[此处](./src/oos/README.md)
+
+## 补充资料
+
+- [冴羽的underscore分析](https://github.com/mqyqingfeng/Blog)：这个分析主要是从整体、构建的角度分析。
+
+- [韩子池的underscore分析](https://github.com/hanzichi/underscore-analysis)：这个分析主要从细节角度分析。
