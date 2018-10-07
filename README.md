@@ -29,7 +29,7 @@
 
 ## Objects系列的工具函数
 
-- 数量： 42/43
+- 数量： 43/43
 
 - 位置： [/src/objects/](./src/objects/)
 
@@ -37,7 +37,7 @@
 
 ## Utility系列的工具函数
 
-- 数量： 12/14
+- 数量： 13/14（没有看template函数）
 
 - 位置： [/src/objects/](./src/utility/)
 
@@ -50,3 +50,7 @@
 - 位置： [/src/chaining/](./src/chaining/)
 
 - 笔记： 详见[此处](./src/chaining/README.md)
+
+## Object-Oriented Style
+
+- 笔记： 详见[此处](./src/oos/README.md)

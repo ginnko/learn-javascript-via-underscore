@@ -38,7 +38,32 @@
 
 ### mixin
 
-`chainResult`这部分有些看不懂，待看完`chain()`再返回头看这个。
+源码中是这样实现的：
+
+```js
+  var _ = function(obj) {
+    if (obj instanceof _) return obj;
+    if (!(this instanceof _)) return new _(obj);
+    this._wrapped = obj;
+  };
+
+  var chainResult = function(instance, obj) {
+    return instance._chain ? _(obj).chain() : obj;
+  };
+
+  _.mixin = function(obj) {
+  _.each(_.functions(obj), function(name) {
+    var func = _[name] = obj[name];
+    _.prototype[name] = function() {
+      var args = [this._wrapped];
+      push.apply(args, arguments);
+      return chainResult(this, func.apply(_, args));
+    };
+  });
+  return _;
+};
+```
+`_`的本质是个函数，其他工具函数都定义成这个函数的属性。这个函数自己的功能实际是由这行代码`var func = _[name] = obj[name];`执行的，后面的代码用来执行`chain`功能。解释见`chain`部分。
 
 ### iteratee
 

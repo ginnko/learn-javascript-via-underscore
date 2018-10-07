@@ -77,7 +77,18 @@ omit和pick是反向选取。
 
 ### tap
 
-这个函数暂且搁置，待实现完chain函数再来实现这个。
+这个函数的代码相当简单：
+
+```js
+  _.tap = function(obj, interceptor) {
+    interceptor(obj);
+    return obj;
+  };
+```
+
+个人感觉这个函数不该分到这个系列下面，应该在`chain`系列下面。
+
+使用时，只要传入回调函数`interceptor`，这是因为，`obj`来自chain链中tap函数的上游，经过`mixin`函数中对参数的处理，`obj`排在了第一个参数，`interceptor`排在了第二个参数。这个`mixin`函数真是巧妙的很啊。其中`obj`指的是`_wrapped`中保存的值，然后将值通过返回的形式向chain链的下游函数传递。
 
 ### has
 
