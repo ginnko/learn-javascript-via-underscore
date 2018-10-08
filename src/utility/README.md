@@ -87,6 +87,29 @@
 
 使用`RegExp()`函数创建正则对象的时候，加不加`new`关键字都是可以的。
 
+补充：为何要转义，参见`冴羽`这篇[分析](https://github.com/mqyqingfeng/Blog/issues/77)。
+
+不转义可能会引发 **XSS 攻击** 。
+
+在 HTML 中，某些字符是预留的。比如说在 HTML 中不能使用小于号（<）和大于号（>），因为浏览器会误认为它们是标签。
+
+如果我们转义，将 `<strong>123</strong>` 中的 < 和 > 转为实体字符，即 `&lt;strong&gt;123&lt;/strong&gt;`，我们再设置 innerHTML，浏览器就不会将其解释为标签，而是一段字符，最终会直接显示 `<strong>123</strong>`，这样就避免了潜在的危险。
+
+最终要转义的符号包括：
+
+\& --> `&amp;`
+
+\< --> `&lt;`
+
+\> --> `&gt;`
+
+\" --> `&quot;`
+
+\' --> `&#x27;`
+
+\` --> `&#60;`
+
+
 ### now
 
 `Date.now()`这个函数是从ES5开始有的，兼容版如下：
@@ -104,3 +127,113 @@ function now() {
 
 不难实现
 
+### template
+
+template函数的实质是一个模板引擎。
+
+underscore的模板引擎是根据`John Resig`的理论实现的，`冴羽`的这篇[文章](https://github.com/mqyqingfeng/Blog/issues/63)演示了根据`John Resig`的理论实现的一个简单模板引擎。最终代码如下：
+
+```js
+function tmpl(str, data) {
+    var str = document.getElementById(str).innerHTML;
+
+    var fn = new Function("obj",
+
+    "var p = []; with(obj){p.push('" +
+
+    str
+    .replace(/[\r\t\n]/g, "")
+    .replace(/<%=(.*?)%>/g, "');p.push($1);p.push('")
+    .replace(/<%/g, "');")
+    .replace(/%>/g,"p.push('")
+    + "');}return p.join('');");
+
+    var template = function(data) {
+        return fn.call(this, data)
+    }
+    return template;
+};
+
+// 使用时
+var compiled = tmpl("user_tmpl");
+results.innerHTML = compiled(data);
+```
+上面的代码要注意一点：由字符串转成函数，使用了`Function`构造函数时：
+
+>使用Function构造器生成的函数，并不会在创建它们的上下文中创建闭包；它们一般在全局作用域中被创建。当运行这些函数的时候，它们只能访问自己的本地变量和全局变量，不能访问Function构造器被调用生成的上下文的作用域。这和使用带有函数表达式代码的 eval 不同。
+
+总结一下实现思路：
+
+1. 使用正则表达式替换特殊字符
+
+2. 使用Function构造函数从一个字符串创建一个函数
+
+关于underscore中`template`，设计思路看的的`冴羽`这篇[分析](https://github.com/mqyqingfeng/Blog/issues/70)，下面的代码实现了underscore中template函数的主体部分：
+
+```js
+var template = function(text) {
+    var matcher = RegExp([
+        (settings.interpolate).source,
+        (settings.evaluate).source
+    ].join('|') + '|$', 'g');
+
+    var index = 0;
+    var source = "__p+='";
+
+    text.replace(matcher, function(match, interpolate, evaluate, offset) {
+        source += text.slice(index, offset).replace(escapeRegExp, function(match) {
+            return '\\' + escapes[match];
+        });
+
+        index = offset + match.length;
+
+        if (interpolate) {
+            source += "'+\n((__t=(" + interpolate + "))==null?'':__t)+\n'";
+        } else if (evaluate) {
+            source += "';\n" + evaluate + "\n__p+='";
+        }
+
+        return match;
+    });
+
+    source += "';\n";
+
+    source = 'with(obj||{}){\n' + source + '}\n'
+
+    source = "var __t, __p='';" +
+        source + 'return __p;\n';
+
+    var render = new Function('obj', source);
+
+    return render;
+};
+```
+
+下面横线间的内容为理解template函数补充的基础知识
+
+---
+1. 值得注意的是，转义序列会被视为单个字符。
+2. 我们常见的转义序列还有 \n 表示换行、\t 表示制表符、\r 表示回车等等。
+3. 行终结符
+
+  在ES5中，有四个字符被认为是`行终结符`，其他的折行字符都会被视为空白。
+
+  |字符编码值|名称|
+  |--------|----|
+  |\u000A|换行符|
+  |\u000D|回车符|
+  |\u2028|行分隔符|
+  |\u2029|段落分隔符|
+
+4. 在 Function 构造函数的实现中，首先会将函数体代码字符串进行一次 ToString 操作，然后再检测代码字符串是否符合代码规范。
+
+5. 正则表达式
+
+>Quantifiers without ? are said to be greedy. Those with ? are called "non-greedy".
+
+>For example, /<.*?>/ matches "`<foo>`" in "`<foo> <bar>`", whereas /<.*>/ matches "`<foo> <bar>`".
+
+`.`匹配`行终结符`之外的任意单个字符，`\s`表示匹配一个空白符，包括空格、制表符、换页符、换行符和其他Unicode空格，`\S`匹配一个非空白符，`/[\s\S]/`才是真的匹配任意内容。underscore中就是使用了后面这种形式。
+
+6. 先执行特殊字符的处理是因为特殊字符在 **字符串** 中会破坏其合法性。
+---

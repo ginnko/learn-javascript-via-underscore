@@ -1,35 +1,35 @@
 # learn-javascript-via-underscore
 仿照underscore写类似的功能
 
-## Collections系列的工具函数(:heavy_check_mark:)
+## Collections系列的工具函数
 
-- 数量：25/25
+- 数量：25/25(:heavy_check_mark:)
 
 - 位置：[/src/collections/](./src/collections/)
 
 - 笔记：详见[此处](./src/collections/README.md)
 
 
-## Arrays系列的工具函数(:heavy_check_mark:)
+## Arrays系列的工具函数
 
-- 数量：21/21
+- 数量：21/21(:heavy_check_mark:)
 
 - 位置：[/src/arrays/](./src/arrays/)
 
 - 笔记：详见[此处](./src/arrays/README.md)
 
 
-## Functions系列的工具函数(:heavy_check_mark:)
+## Functions系列的工具函数
 
-- 数量：15/15
+- 数量：15/15(:heavy_check_mark:)
 
 - 位置：[/src/functions/](./src/functions/)
 
 - 笔记：详见[此处](./src/functions/README.md)
 
-## Objects系列的工具函数(:heavy_check_mark:)
+## Objects系列的工具函数
 
-- 数量： 43/43
+- 数量： 43/43(:heavy_check_mark:)
 
 - 位置： [/src/objects/](./src/objects/)
 
@@ -37,21 +37,23 @@
 
 ## Utility系列的工具函数
 
-- 数量： 13/14（没有看template函数）
+- 数量： 14/14(:heavy_check_mark:)
 
 - 位置： [/src/objects/](./src/utility/)
 
 - 笔记： 详见[此处](./src/utility/README.md)
 
-## Chaining系列的工具函数(:heavy_check_mark:)
+## Chaining系列的工具函数
 
-- 数量： 2/2
+- 数量： 2/2(:heavy_check_mark:)
 
 - 位置： [/src/chaining/](./src/chaining/)
 
 - 笔记： 详见[此处](./src/chaining/README.md)
 
-## Object-Oriented Style(:heavy_check_mark:)
+## Object-Oriented Style
+
+- 数量： 1/1(:heavy_check_mark:)
 
 - 笔记： 详见[此处](./src/oos/README.md)
 
