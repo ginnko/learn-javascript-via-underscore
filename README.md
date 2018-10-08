@@ -1,7 +1,7 @@
 # learn-javascript-via-underscore
 仿照underscore写类似的功能
 
-## Collections系列的工具函数
+## Collections系列的工具函数(:heavy_check_mark:)
 
 - 数量：25/25
 
@@ -10,7 +10,7 @@
 - 笔记：详见[此处](./src/collections/README.md)
 
 
-## Arrays系列的工具函数
+## Arrays系列的工具函数(:heavy_check_mark:)
 
 - 数量：21/21
 
@@ -19,7 +19,7 @@
 - 笔记：详见[此处](./src/arrays/README.md)
 
 
-## Functions系列的工具函数
+## Functions系列的工具函数(:heavy_check_mark:)
 
 - 数量：15/15
 
@@ -27,7 +27,7 @@
 
 - 笔记：详见[此处](./src/functions/README.md)
 
-## Objects系列的工具函数
+## Objects系列的工具函数(:heavy_check_mark:)
 
 - 数量： 43/43
 
@@ -43,7 +43,7 @@
 
 - 笔记： 详见[此处](./src/utility/README.md)
 
-## Chaining系列的工具函数
+## Chaining系列的工具函数(:heavy_check_mark:)
 
 - 数量： 2/2
 
@@ -57,6 +57,6 @@
 
 ## 补充资料
 
-- [冴羽的underscore分析](https://github.com/mqyqingfeng/Blog)：这个分析主要是从整体、构建的角度分析。
+- [冴羽的underscore分析](https://github.com/mqyqingfeng/Blog)：这个分析主要是从整体、构建的角度分析。(:heavy_check_mark:)
 
 - [韩子池的underscore分析](https://github.com/hanzichi/underscore-analysis)：这个分析主要从细节角度分析。
