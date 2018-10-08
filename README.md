@@ -51,7 +51,7 @@
 
 - 笔记： 详见[此处](./src/chaining/README.md)
 
-## Object-Oriented Style
+## Object-Oriented Style(:heavy_check_mark:)
 
 - 笔记： 详见[此处](./src/oos/README.md)
 
